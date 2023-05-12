@@ -106,64 +106,10 @@ def login():
         return render_template("login.html")
 
 
-# @app.route("/login", methods=["GET", "POST"])
-# def login():
-#     if request.method == "POST":
-#         db = get_db()
-#         username = request.form["username"]
-#         password = request.form["password"]
-#         user = db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
-#         db.close()
-#
-#         if user is None:
-#             error = "Invalid username or password"
-#         elif not check_password_hash(user["password"], password):
-#             error = "Invalid username or password"
-#         else:
-#             session["username"] = user["username"]
-#             return redirect(url_for("index"))
-#
-#         return render_template("login.html", error=error)
-#     else:
-#         return render_template("login.html")
-
-
 @app.route("/logout")
 def logout():
     session.pop("username", None)
     return redirect(url_for("index"))
-
-
-# @app.route("/register", methods=["GET", "POST"])
-# def register():
-#     if request.method == "POST":
-#         db = get_db()
-#         username = request.form["username"]
-#         password = request.form["password"]
-#         confirm_password = request.form["confirm_password"]
-#
-#         error = None
-#
-#         if not username:
-#             error = "Username is required"
-#         elif not password:
-#             error = "Password is required"
-#         elif password != confirm_password:
-#             error = "Passwords do not match"
-#         elif db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone() is not None:
-#             error = "Username already exists"
-#
-#         if error is None:
-#             db.execute("INSERT INTO users (username, password) VALUES (?, ?)",
-#                        (username, generate_password_hash(password)))
-#             db.commit()
-#             db.close()
-#             return redirect(url_for("login"))
-#
-#         db.close()
-#         return render_template("register.html", error=error)
-#     else:
-#         return render_template("register.html")
 
 
 if __name__ == '__main__':
